@@ -18,4 +18,22 @@ app.listen(PORT, () =>
   console.log(`Notes app listening at http://localhost:${PORT}`)
 );
 
-app.get('/api/notes', (req, res) => res.json(noteData));  
+//add Middleware for parsing app/json data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.post('/api/notes', (req, res) => {
+    const {title, text} = req.body;
+    console.log(title)
+    console.log(text)
+    const newNote = {
+        title,
+        text
+    };   
+    console.info(`${req.method} request received`);
+    res.json(newNote);
+    console.log(newNote);
+  });
+
+app.get('/api/notes', (req, res) => res.json(noteData));
+console.log(noteData);
