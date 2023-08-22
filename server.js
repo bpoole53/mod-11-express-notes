@@ -9,7 +9,9 @@ const { v4: uuidv4 } = require('uuid');
 app.use(express.static('public'));
 
 //initialize so the index.html page is loaded first
-app.get('/', (req, res) => res.send('Navigate to /notes'));
+app.get('/', (req, res) => 
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+);
 
 //create a route to notes.html
 app.get('/notes', (req, res) =>
