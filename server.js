@@ -37,20 +37,23 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
         title,
         text,
-        note_id: uuidv4(),
+        id: uuidv4(),
     };   
     console.info(`${req.method} request received`);
-    res.json(newNote);
+    
     console.log(newNote);
 
-    const noteString = JSON.stringify(newNote);
-    console.log(noteString)
 
-    // Write the string to a file
-    fs.appendFile(`${jsonPath}`, noteString, (err) =>
-      err
-        ? console.error(err)
-        : console.log(`New note has been written to JSON file`)
-    );
- });
+    noteData.push(newNote);
+    fs.writeFileSync('db/db.json', JSON.stringify(noteData))
+    
+    res.json(newNote);
+});
+
+app.delete('/api/notes/:id', (req, res) => {
+    const id = req.params.id
+    const updateDb = noteData.filter((note) => note.id != id);
+    fs.writeFileSync('db/db.json', JSON.stringify(updateDb))
+    res.json(updateDb)
+})
 
