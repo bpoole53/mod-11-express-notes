@@ -8,7 +8,10 @@ https://bpoole53-express-note-taker-c90d46568fe0.herokuapp.com/
 
 ## Description
 This is an application that allows the user to take notes.
-    
+
+## Source Code Used
+The source code utilized for this project is public/assets/index.js, public/assets/css, ./package.json, ./db/db.json, and public/assets/css/style.css
+
 ## Installation
 N/A
     
