@@ -7,13 +7,13 @@
 https://bpoole53-express-note-taker-c90d46568fe0.herokuapp.com/
 
 ## Description
-This is a tool that will create a professional README file
+This is an application that allows the user to take notes.
     
 ## Installation
 N/A
     
 ## Usage
-Answer prompts that will provide information to the generator which will then use that to create a README file
+The user is able to add and remove notes as needed.  They can also click in the left sidebar to view any previous notes.
     
 ## Contribution Guidelines
 N/A
