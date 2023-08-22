@@ -3,7 +3,6 @@ const path = require('path');
 const app = express();
 const PORT = 3001;
 const noteData = require('./db/db.json');
-const jsonPath = path.join(__dirname, "./db/db.json");
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
@@ -17,39 +16,31 @@ app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, 'public/notes.html'))
 );
 
-//have the server listen at port 3001
-app.listen(PORT, () =>
-  console.log(`Notes app listening at http://localhost:${PORT}`)
-);
-
 //add Middleware for parsing app/json data
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+//app.use(express.urlencoded({ extended: true }));
 
 //convert data to json
 app.get('/api/notes', (req, res) => res.json(noteData));
-console.log(noteData);
 
+//Destructure req.body into title and text variables and pass them into the newNote variable and then add a random id to newNote
 app.post('/api/notes', (req, res) => {
     const {title, text} = req.body;
-    console.log(title)
-    console.log(text)
     const newNote = {
         title,
         text,
-        id: uuidv4(),
+        id: uuidv4().split('-')[0],
     };   
     console.info(`${req.method} request received`);
     
-    console.log(newNote);
-
-
+    //add newNote object to the db.json array 
     noteData.push(newNote);
+    //overwrite the existing db.json file with the updated and stringified array
     fs.writeFileSync('db/db.json', JSON.stringify(noteData))
-    
     res.json(newNote);
 });
 
+//delete route to get the provided :id and then filter the array to keep anything that does not match the id variable. Then overwrite the db.json file with the remaining data.
 app.delete('/api/notes/:id', (req, res) => {
     const id = req.params.id
     const updateDb = noteData.filter((note) => note.id != id);
@@ -57,3 +48,7 @@ app.delete('/api/notes/:id', (req, res) => {
     res.json(updateDb)
 })
 
+//have the server listen at port 3001
+app.listen(PORT, () =>
+  console.log(`Notes app listening at http://localhost:${PORT}`)
+);
